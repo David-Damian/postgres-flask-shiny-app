@@ -1,5 +1,11 @@
-# Base de Datos: Instrucciones de inicialización.
+# Base de Datos.
 
+## Prerrequisitos:
+* Docker
+* Python:
+    * **psycopg2**: `pip install psycopg2`
+
+## Pasos de inicialización:
 **Paso 1**: Archivo de configuración.
 <br>Desde una terminal de bash ejecutar `cd db-config/ | docker-compose up -d`. Esto va a crear dos contenedores de Docker:
 * Uno con la imagen de Docker para PostgreSQL que se comunica en 5432:5432
