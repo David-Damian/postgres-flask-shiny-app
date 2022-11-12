@@ -1,5 +1,5 @@
 -- Eliminar cualquier tabla existente con mismo nombre
-DROP TABLE wine_quality;
+DROP TABLE IF EXISTS wine_quality;
 
 -- Crear tabla de datos
 CREATE TABLE wine_quality(
