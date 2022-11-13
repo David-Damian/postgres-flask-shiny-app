@@ -16,7 +16,12 @@ is.na(wine_data) %>% sum()
 library(shinythemes)
 ui <- fluidPage(theme = shinytheme("superhero"),
                 navbarPage("¿Qué tan fino es tu vino?",
-                           tabPanel("Home",            
+                           
+                           tabPanel("Home",
+                                    titlePanel("ITAMITAS pan y vino"),
+                           ),  #tabPanel(), CRUD
+                           
+                           tabPanel("Visualización",            
   titlePanel("EDA sobre calidad de vinos"),
   sidebarPanel('Características químicas de los vinos\n',
                selectInput("wine_char", label = "Por favor seleccione la característica que desea explorar...",
