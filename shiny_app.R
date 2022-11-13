@@ -14,8 +14,6 @@ is.na(wine_data) %>% sum()
 
 #setting theme SUPERHERO
 library(shinythemes)
-
-
 ui <- fluidPage(theme = shinytheme("superhero"),
                 navbarPage("¿Qué tan fino es tu vino?",
                            tabPanel("Home",            
@@ -24,22 +22,36 @@ ui <- fluidPage(theme = shinytheme("superhero"),
                selectInput("wine_char", label = "Por favor seleccione la característica que desea explorar...",
                                   choices = list("pH" = 'pH',
                                                  "Densidad" = 'density',
-                                                 "Cantidad de alcohol" = 'alcohol'),
+                                                 "Cantidad de alcohol" = 'alcohol'
+                                                 ),
                                   selected = 'pH')),
              #  selectInput("type", label = "Please choose type of share...",
               #             choices = list("Closing Price" = 'close_price ',
               #                            "Share Volume" = ' volume'),
               #             selected = 'close_price')),
-  mainPanel('Main panel of the app',
+  mainPanel('Main panel of this panel',
+            
             # Output: multiple boxplots ----
             plotOutput('charcsBoxplot')),
   position = 'left'
   ),     #tabPanel(), Home
+  
+  
             tabPanel("CRUD",
                      titlePanel("Create, Read, Update, Delete"),
-                    )#tabPanel(), CRUD
+                    ),  #tabPanel(), CRUD
+  
+  
+  tabPanel("About DB", 
+           titlePanel(""), 
+           div(includeMarkdown("about_database.md"), 
+               align="justify")
+  ) #tabPanel(), About
+  
                 )#navbarPage()
 )#fluidPage()
+
+
 #-----BACKEND
 
 server <- function(input, output){
