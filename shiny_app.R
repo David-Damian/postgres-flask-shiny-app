@@ -1,7 +1,7 @@
 #DATA PREPARATION
 
 # move to the directory in which winequality db is stored
-setwd("here put the path in which wine DB sis stored")
+setwd("/home/davedamian_/Documentos/MCD_EC/postgres-flask-shiny-app/datos")
 library(readr)
 wine_data <- read_csv("./winequality-red-raw.csv")
 #target variable from numeric to categorical(factor)
@@ -10,11 +10,18 @@ wine_data$quality<-as.factor(wine_data$quality)
 #verifiying if there are missing values in de DB
 is.na(wine_data) %>% sum()
 
+#-----FRONTEND
 
-ui <- fluidPage(
+#setting theme SUPERHERO
+library(shinythemes)
+
+
+ui <- fluidPage(theme = shinytheme("superhero"),
+                navbarPage("¿Qué tan fino es tu vino?",
+                           tabPanel("Home",            
   titlePanel("EDA sobre calidad de vinos"),
   sidebarPanel('Características químicas de los vinos\n',
-               selectInput("wine_char", label = "Por favor seleccione la característica que desea eplorar...",
+               selectInput("wine_char", label = "Por favor seleccione la característica que desea explorar...",
                                   choices = list("pH" = 'pH',
                                                  "Densidad" = 'density',
                                                  "Cantidad de alcohol" = 'alcohol'),
@@ -26,15 +33,22 @@ ui <- fluidPage(
   mainPanel('Main panel of the app',
             # Output: multiple boxplots ----
             plotOutput('charcsBoxplot')),
-  position = 'left')
-
+  position = 'left'
+  ),     #tabPanel(), Home
+            tabPanel("CRUD",
+                     titlePanel("Create, Read, Update, Delete"),
+                    )#tabPanel(), CRUD
+                )#navbarPage()
+)#fluidPage()
+#-----BACKEND
 
 server <- function(input, output){
   output$charcsBoxplot <- renderPlot(
     {
       req(input$wine_char)
       data <- wine_data %>% select(quality, input$wine_char)
-      ggplot(data = data)+geom_boxplot(aes_string(x = "quality", y = input$wine_char))
+      ggplot(data = data)+geom_boxplot(aes_string(x = "quality", y = input$wine_char), 
+                                       color="red", fill="orange", alpha=0.2)
     }
   )
 }
