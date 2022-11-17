@@ -3,6 +3,23 @@ import numpy as np
 import psycopg2
 
 
+def create_query(query_file):
+    """"
+    Esta función recibe un archivo .txt con un query
+    de SQL para transformarlo en un str de python.
+    
+    Parámetros:
+    query_file: Archivo .txt con query de SQL.
+    """
+    #Se abre el archivo
+    with open(query_file, mode='r') as file:
+        query = """"""
+        for row in file:
+            query += (row)      
+    file.close()
+    return query
+
+
 #Conexión a base de datos
 conn = psycopg2.connect(
     database='vinos',
@@ -14,7 +31,16 @@ conn = psycopg2.connect(
 #Cursor para operaciones en base de datos
 cur = conn.cursor()
 
-#Lectura de datos en bruto
+#Crear tabla en base de datos
+file = 'queries/table_wineQuality.txt'
+print(f"Creando tabla de archivo {file}...")
+query = create_query(query_file=file)
+cur.execute(query)
+print("Tabla creada.\n")
+
+#Lectura e inserción de datos en bruto
+table = "wine_quality"
+print(f"Insertando datos en {table}...")
 with open('../datos/winequality-red-raw.csv', mode='r') as file:
     csvFile = csv.reader(file)
     for line in csvFile:
@@ -24,38 +50,26 @@ with open('../datos/winequality-red-raw.csv', mode='r') as file:
             row = np.trunc(row) / 1e6
             
             #Query de inserción
-            insert_query = f"""
-            INSERT INTO wine_quality(
-                fixed_acidity,
-                volatile_acidity,
-                citric_acid,
-                residual_sugar,
-                chlorides,
-                free_sulfur_dioxide,
-                total_sulfur_dioxide,
-                density,
-                pH,
-                sulphates,
-                alcohol,
-                quality)
-            VALUES ({row[0]},{row[1]},{row[2]},{row[3]},{row[4]},{row[5]},{row[6]},{row[7]},{row[8]},{row[9]},{row[10]},{row[11]});"""
-
+            insert_query = create_query("queries/insert_data.txt")
+            insert_query = insert_query.replace("<table>", f"{table}")
+            for i in range(len(row)):
+                insert_query =  insert_query.replace(f"x_{i}", f"{row[i]}")
+            
             #Escritura en base de datos
             cur.execute(insert_query)
-        
         except ValueError:
             pass
 file.close()
 
 #Consulta de inserción en base de datos
-cur.execute("SELECT * FROM wine_quality")
+
+cur.execute(f"SELECT * FROM {table}")
 rows = cur.fetchall()
 
 if not len(rows):
     print("EMPTY")
 else:
-    for row in rows:
-        print(row)
+    print(f"Registros en {table}: {len(rows):,}")
 
 #Terminar comunicación.
 cur.close()
