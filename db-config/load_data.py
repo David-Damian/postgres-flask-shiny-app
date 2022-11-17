@@ -53,7 +53,7 @@ with open('../datos/winequality-red-raw.csv', mode='r') as file:
             insert_query = create_query("queries/insert_data.txt")
             insert_query = insert_query.replace("<table>", f"{table}")
             for i in range(len(row)):
-                insert_query =  insert_query.replace(f"x_{i}", f"{row[i]}")
+                insert_query = insert_query.replace(f"x_{i}", f"{row[i]}")
             
             #Escritura en base de datos
             cur.execute(insert_query)
