@@ -1,0 +1,27 @@
+--Plantilla de inserción de datos.
+INSERT INTO <table>(
+    fixed_acidity,
+    volatile_acidity,
+    citric_acid,
+    residual_sugar,
+    chlorides,
+    free_sulfur_dioxide,
+    total_sulfur_dioxide,
+    density,
+    pH,
+    sulphates,
+    alcohol,
+    quality)
+VALUES(
+    x_0,
+    x_1,
+    x_2,
+    x_3,
+    x_4,
+    x_5,
+    x_6,
+    x_7,
+    x_8,
+    x_9,
+    x_10,
+    x_11);
