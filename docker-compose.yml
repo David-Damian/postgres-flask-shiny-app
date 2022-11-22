@@ -9,15 +9,11 @@ services:
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
-      - POSTGRES_DB=vinos
+      - POSTGRES_DB=wine_quality
 
-  pgadmin:
-    image: dpage/pgadmin4
-    restart: always
-    environment:
-      PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
-      PGADMIN_DEFAULT_PASSWORD: "admin"
+  backend:
+    build: .
     ports:
-      - "8080:80"
+      - "5000:5000"
     depends_on:
       - db
