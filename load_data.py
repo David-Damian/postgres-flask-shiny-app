@@ -39,13 +39,6 @@ conn = psycopg2.connect(
 #Cursor para operaciones en base de datos
 cur = conn.cursor()
 
-#Crear tabla en base de datos
-# file = 'db-queries/table_wineQuality.txt'
-# print(f"Creando tabla de archivo {file}...")
-# query = create_query(query_file=file)
-# cur.execute(query)
-# print("Tabla creada.\n")
-
 #Lectura e inserción de datos en bruto
 schema, table = 'wine', 'wine_quality'
 print(f"Insertando datos en {table}...")
@@ -60,7 +53,7 @@ with open('datos/winequality-red-raw.csv', mode='r') as file:
             
             #Query de inserción
             insert_query = create_query("db/insert_data.txt")
-            insert_query = insert_query.replace("<table>", f"{table}")
+            insert_query = insert_query.replace("<schema>", f"{schema}").replace("<table>", f"{table}")
             for i in range(len(row)):
                 insert_query = insert_query.replace(f"x_{i}", f"{row[i]}")
             

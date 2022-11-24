@@ -1,4 +1,4 @@
-INSERT INTO wine.<table>(
+INSERT INTO <schema>.<table>(
     fixed_acidity,
     volatile_acidity,
     citric_acid,
