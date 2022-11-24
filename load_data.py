@@ -23,7 +23,7 @@ data_file = 'datos/winequality-red-raw.csv'
 query_template = 'db/insert_data.txt'
 
 print(f"Insertando datos en {table}...")
-db.insert_data(cursor=cur, schema=schema, table=table, data=data_file, template=query_template)
+db.initial_load(cursor=cur, schema=schema, table=table, data=data_file, template=query_template)
 print("Datos insertados.")
 
 #Consulta de inserción en base de datos

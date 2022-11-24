@@ -26,7 +26,7 @@ def create_query(query_file):
     return query
 
 
-def insert_data(cursor, schema, table, data, template):
+def initial_load(cursor, schema, table, data, template):
     with open(data, mode='r') as file:
         csvFile = csv.reader(file)
         
