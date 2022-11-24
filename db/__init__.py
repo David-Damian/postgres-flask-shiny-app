@@ -27,24 +27,32 @@ def create_query(query_file):
 
 
 def initial_load(cursor, schema, table, data, template):
-    with open(data, mode='r') as file:
-        csvFile = csv.reader(file)
-        
-        for line in csvFile:
-            try:
-                #Se truncan valores a 6 decimales max
-                row = np.array(line).astype(float) * 1e6
-                row = np.trunc(row) / 1e6
-                
-                #Query de inserción
-                insert_query = create_query(template)
-                insert_query = insert_query.replace("<schema>", f"{schema}").replace("<table>", f"{table}")
-                for i in range(len(row)):
-                    insert_query = insert_query.replace(f"x_{i}", f"{row[i]}")
-                
-                #Escritura en base de datos
-                cursor.execute(insert_query)
-                
-            except ValueError:
-                pass
-    file.close()
+    #Condición para no sobre escribir en la BD.
+    cursor.execute(f"SELECT * FROM {schema}.{table}")
+    rows = cursor.fetchall()
+    if not len(rows):
+        with open(data, mode='r') as file:
+            csvFile = csv.reader(file)
+            
+            for line in csvFile:
+                try:
+                    #Se truncan valores a 6 decimales max
+                    row = np.array(line).astype(float) * 1e6
+                    row = np.trunc(row) / 1e6
+                    
+                    #Query de inserción
+                    insert_query = create_query(template)
+                    insert_query = insert_query.replace("<schema>", f"{schema}").replace("<table>", f"{table}")
+                    for i in range(len(row)):
+                        insert_query = insert_query.replace(f"x_{i}", f"{row[i]}")
+                    
+                    #Escritura en base de datos
+                    cursor.execute(insert_query)
+                    
+                except ValueError:
+                    pass
+        file.close()    
+    else:
+        pass
+    
+    
