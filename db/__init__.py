@@ -27,10 +27,22 @@ def create_query(query_file):
 
 
 def initial_load(cursor, schema, table, data, template):
+    """
+    Esta función es para inicializar la tabla con
+    datos de un archivo en bruto.
+
+    Parámetros:
+    cursor: Cursor de conexión a BD.
+    schema: Schema de BD
+    table: Nombre de la tabla a la cual se insertará
+    data: Archivo .csv con los datos a insertar
+    template: Plantilla con query de inserción de datos.
+    """
     #Condición para no sobre escribir en la BD.
     cursor.execute(f"SELECT * FROM {schema}.{table}")
     rows = cursor.fetchall()
     if not len(rows):
+        #Lectura e inserción de datos en bruto
         with open(data, mode='r') as file:
             csvFile = csv.reader(file)
             
