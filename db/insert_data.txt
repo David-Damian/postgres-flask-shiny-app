@@ -1,5 +1,4 @@
---Plantilla de inserción de datos.
-INSERT INTO <table>(
+INSERT INTO <schema>.<table>(
     fixed_acidity,
     volatile_acidity,
     citric_acid,

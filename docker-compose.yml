@@ -3,17 +3,38 @@ services:
   
   db:
     image: postgres
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-d", "postgres", "-U", "root" ]
+      timeout: 45s
+      interval: 10s
+      retries: 10
     restart: always
-    ports:
-      - "5432:5432"
     environment:
       - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=root
-      - POSTGRES_DB=wine_quality
+      - POSTGRES_PASSWORD=password
+      - APP_DB_USER=docker
+      - APP_DB_PASS=docker
+      - APP_DB_NAME=wine
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d/
+    ports:
+      - 5432:5432
 
   backend:
     build: .
+    restart: always
+    environment:
+      - POSTGRES_ADDR=db
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=wine
     ports:
       - "5000:5000"
-    depends_on:
+    links:
       - db
+    restart: on-failure
+    
+  shiny: 
+    build: ./shiny
+    ports:
+      - 5000:4999
