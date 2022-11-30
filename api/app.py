@@ -1,5 +1,7 @@
 import os
+import json
 import psycopg2
+import psycopg2.extras
 from flask import Flask
 
 #Get enviroment variables
@@ -7,48 +9,21 @@ USER = os.getenv('POSTGRES_USER')
 PASSWORD = os.environ.get('POSTGRES_PASSWORD')
 ADDRESS = os.environ.get('POSTGRES_ADDR')
 DB = os.environ.get('POSTGRES_DB')
-print(f"USER: {USER}, PASS: {PASSWORD}, ADDRESS: {ADDRESS}, DB: {DB}\n")
+database_uri = f'postgresql://{USER}:{PASSWORD}@{ADDRESS}:5432/{DB}'
 
 #Conexión a base de datos
-conn = psycopg2.connect(
-    database=DB,
-    user=USER,
-    password=PASSWORD,
-    host=ADDRESS)
-cur = conn.cursor()
-
-#Lectura e inserción de datos en bruto
 schema, table = 'public', 'wine_quality'
-# data_file = 'datos/winequality-red-raw.csv'
-# query_template = 'db/insert_data.txt'
-
-# #Condición para no sobre escribir en la BD.
-# cur.execute(f"SELECT * FROM {schema}.{table}")
-# rows = cur.fetchall()
-# if not len(rows):
-#     print(f"Insertando datos en {table}...")
-#     db.initial_load(cursor=cur, schema=schema, table=table, data=data_file, template=query_template)
-#     print("Datos insertados.")
-# else:
-#     pass
-
-#Consulta de inserción en base de datos
-cur.execute(f"SELECT * FROM {schema}.{table}")
-rows = cur.fetchall()
-
-if not len(rows):
-    print("EMPTY")
-else:
-    print(f"Registros en {table}: {len(rows):,}")
-
-#Terminar comunicación.
-conn.commit()
-cur.close()
-conn.close()
+conn = psycopg2.connect(database_uri)
 
 app = Flask(__name__)
 
 @app.route('/')
 def home():
-    results = rows
+    cur = conn.cursor(cursor_factory=psycopg2.extras.NamedTupleCursor)
+    cur.execute(f"SELECT COUNT(*) FROM {schema}.{table}")
+    results = cur.fetchall()
+    cur.close()
     return json.dumps([x._asdict() for x in results], default=str)
+
+if __name__ == '__main__':
+    app.run(host="0.0.0.0", port=5000, debug=True)
