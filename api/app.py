@@ -18,7 +18,8 @@ conn = psycopg2.connect(database_uri)
 app = Flask(__name__)
 
 @app.route('/')
-def home():
+@app.route("/inicio", methods=['GET', 'POST'])
+def inicio():
     cur = conn.cursor(cursor_factory=psycopg2.extras.NamedTupleCursor)
     cur.execute(f"SELECT COUNT(*) FROM {schema}.{table}")
     results = cur.fetchall()
