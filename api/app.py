@@ -21,7 +21,7 @@ app = Flask(__name__)
 @app.route("/inicio", methods=['GET', 'POST'])
 def inicio():
     cur = conn.cursor(cursor_factory=psycopg2.extras.NamedTupleCursor)
-    cur.execute(f"SELECT COUNT(*) FROM {schema}.{table}")
+    cur.execute(f"SELECT * FROM {schema}.{table}")
     results = cur.fetchall()
     cur.close()
     return json.dumps([x._asdict() for x in results], default=str)
