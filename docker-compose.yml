@@ -1,0 +1,38 @@
+version: "3.8"
+volumes:
+  pg_api:
+services:  
+  db:
+    image: postgres
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-d", "postgres", "-U", "root" ]
+      timeout: 45s
+      interval: 10s
+      retries: 10
+    restart: always
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=password
+      - APP_DB_USER=docker
+      - APP_DB_PASS=docker
+      - APP_DB_NAME=wine
+    volumes:
+      - ./datos/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./datos/winequality-red-raw.csv:/datos/winequality-red-raw.csv
+      - pg_api:/var/lib/postgresql/datos
+    ports:
+      - 5432:5432
+
+  web:
+    build: ./api
+    restart: always
+    environment:
+      - POSTGRES_ADDR=db
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=root
+    ports:
+      - "5000:5000"
+    links:
+      - db
+    restart: on-failure
