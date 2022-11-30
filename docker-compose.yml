@@ -1,6 +1,7 @@
 version: "3.8"
-services:
-  
+volumes:
+  pg_api:
+services:  
   db:
     image: postgres
     healthcheck:
@@ -16,18 +17,20 @@ services:
       - APP_DB_PASS=docker
       - APP_DB_NAME=wine
     volumes:
-      - ./db:/docker-entrypoint-initdb.d/
+      - ./datos/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./datos/winequality-red-raw.csv:/datos/winequality-red-raw.csv
+      - pg_api:/var/lib/postgresql/datos
     ports:
       - 5432:5432
 
-  backend:
-    build: .
+  web:
+    build: ./api
     restart: always
     environment:
       - POSTGRES_ADDR=db
-      - POSTGRES_USER=docker
-      - POSTGRES_PASSWORD=docker
-      - POSTGRES_DB=wine
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=root
     ports:
       - "5000:5000"
     links:

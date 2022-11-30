@@ -1,16 +1,16 @@
 import psycopg2
 
 conn = psycopg2.connect(
-    database='wine',
-    user='docker',
-    password='docker',
+    database='root',
+    user='root',
+    password='password',
     host='0.0.0.0'
 )
 
 cur = conn.cursor()
 
 #Consulta de inserción en base de datos
-cur.execute(f"SELECT * FROM wine.wine_quality")
+cur.execute(f"SELECT * FROM public.wine_quality")
 rows = cur.fetchall()
 
 if not len(rows):
