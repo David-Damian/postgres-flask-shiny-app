@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS wine_quality;
 CREATE TABLE wine_quality(
+    type                    VARCHAR(25)     NOT NULL,
     fixed_acidity 			DECIMAL(10,6)	NOT NULL,
     volatile_acidity		DECIMAL(10,6)	NOT NULL,
     citric_acid				DECIMAL(10,6)	NOT NULL,
