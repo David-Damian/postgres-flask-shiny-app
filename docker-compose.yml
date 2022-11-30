@@ -36,3 +36,8 @@ services:
     links:
       - db
     restart: on-failure
+    
+  shiny: 
+    build: ./shiny
+    ports:
+      - 5000:4999
