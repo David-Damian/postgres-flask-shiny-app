@@ -32,7 +32,7 @@ services:
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=root
     ports:
-      - "5000:5000"
+      - "4999:4999"
     links:
       - db
     restart: on-failure
