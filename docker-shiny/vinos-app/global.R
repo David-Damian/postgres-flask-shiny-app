@@ -10,6 +10,5 @@ library(DT)
 
 #wine_data <- read_csv("winequality-red-raw.csv")
 url <- 'web:4999/'
-response <- GET(url) #"https://geeksforgeeks.org"
+response <- GET(url)
 wine_data <- fromJSON(content(response, as='text'))
-#wine_data$quality<-as.factor(wine_data$quality)  
