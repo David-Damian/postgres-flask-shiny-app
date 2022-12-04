@@ -42,7 +42,7 @@ shinyServer(function(input, output) {
       data <- wine_data %>%
         filter(type == input$tipo) 
         
-      ggplot(data = data)+geom_point(aes_string(x = "pH", y = input$char,color='quality'))
+      ggplot(data = data)+geom_point(aes_string(x = "ph", y = input$char,color='quality'))
     })
   
   })

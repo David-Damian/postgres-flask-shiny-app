@@ -52,12 +52,12 @@ shinyUI(
                     title = "Características",
                     selectInput("char", label = "Por favor seleccione la característica que desea explorar...",
                                 choices = list(
-                                  "pH" = 'pH',
+                                  "pH" = 'ph',
                                   "Densidad" = 'density',
                                   "Cantidad de alcohol" = 'alcohol',
-                                  "Acidez" = 'fixed acidity'
+                                  "Acidez" = 'fixed_acidity'
                                 ),
-                                selected = 'pH')
+                                selected = 'ph')
                   ),
                   
                   box(
