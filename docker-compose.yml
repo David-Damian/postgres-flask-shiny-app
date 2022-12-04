@@ -36,3 +36,11 @@ services:
     links:
       - db
     restart: on-failure
+
+  shiny:
+    build: ./docker-shiny
+    ports:
+      - 4998:4998
+    links:
+      - web
+    restart: on-failure
