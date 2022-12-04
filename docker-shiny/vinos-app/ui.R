@@ -55,7 +55,14 @@ shinyUI(
                                   "pH" = 'ph',
                                   "Densidad" = 'density',
                                   "Cantidad de alcohol" = 'alcohol',
-                                  "Acidez" = 'fixed_acidity'
+                                  "Acidez fija" = 'fixed_acidity',
+                                  "Acidez volatil" = 'volatile_acidity',
+                                  "Cítricos" = 'citric_acid',
+                                  "Azucar residual" = 'residual_sugar',
+                                  "Cloruros" = 'chlorides',
+                                  "Azufre libre" = 'free_sulfur_dioxide',
+                                  "Azufre total" = 'total_sulfur_dioxide',
+                                  "Sulfatos" = 'sulphates'
                                 ),
                                 selected = 'ph')
                   ),
