@@ -30,4 +30,4 @@ wine_data$free_sulfur_dioxide <- as.double(wine_data$free_sulfur_dioxide)
 wine_data$ph <- as.double(wine_data$ph)
 wine_data$sulphates <- as.double(wine_data$sulphates)
 wine_data$alcohol <- as.double(wine_data$alcohol)
-
+wine_data$total_sulfur_dioxide <- as.double(wine_data$total_sulfur_dioxide)
