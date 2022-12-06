@@ -40,7 +40,7 @@ shinyUI(
                   )
                 ),
                   fluidRow(column(width = 12,
-                        dataTableOutput("tabla_datos")
+                        DT::dataTableOutput("tabla_datos")
         )
         ),
         ), #fin del tab Datos
