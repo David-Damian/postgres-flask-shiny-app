@@ -87,7 +87,7 @@ shinyUI(
         
         tabItem(tabName = "resultado",
                 # Titulo del panel
-                titlePanel("Reentrenamiento del modelo"),
+                titlePanel("Create, Read, Update, Delete"),
                 fluidRow(column(width = 10,
                                   h3("Introduce las siguientes características de tu vino"),
                                   h4("Una vez que rellenas todas las casillas, picale al botón ´Añadir registros´")
@@ -127,6 +127,16 @@ shinyUI(
                   ),
                   column(width = 2,
                          actionButton("submit", "Añadir registros") # boton para submitear nuevos datos
+                  ),
+                  
+                  #Borrar registros a partir de su ID
+                  box(
+                    title = "Introduzca el ID  del registro a eliminar",
+                    numericInput("IDreg_delete", label = "ID",value=6)
+                  ),
+                  column(width = 2,
+                         actionButton(inputId = "delete", label= "Borrar registro", 
+                                      icon= icon("trash-alt") ) # boton para submitear nuevos datos
                   ),
                 )
         )
