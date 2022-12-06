@@ -136,7 +136,7 @@ shinyUI(
                   ),
                   column(width = 2,
                          actionButton(inputId = "delete", label= "Borrar registro", 
-                                      icon= icon("trash-alt") ) # boton para submitear nuevos datos
+                                      icon= icon("trash-alt") ) # boton para borrar datos
                   ),
                 )
         )
