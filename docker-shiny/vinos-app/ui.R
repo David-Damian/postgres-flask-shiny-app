@@ -17,11 +17,13 @@ shinyUI(
     #Body content
     dashboardBody(
       tabItems(
-        tabPanel("About", 
-                 titlePanel("About"), 
-                 div(includeMarkdown("aboutDB.md"), 
+        tabItem(tabName="general",
+                fluidPage(
+                 titlePanel("Descripción DB"), 
+                 div(shiny::includeMarkdown("aboutDB.md"), 
                      align="justify")
-        ), #tabPanel(), About
+                )
+              ), #tabPanel(), About
         # 
         tabItem(tabName = "tabla",
                 fluidPage(
