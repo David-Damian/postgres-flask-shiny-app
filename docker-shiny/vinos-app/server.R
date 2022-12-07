@@ -1,6 +1,6 @@
 shinyServer(function(input, output) {
   #recibe las caracteristicas de un nuevo vino para predecir su calidad:
-  observeEvent(input$predecir,{
+  observeEvent(input$confirmar,{
         POST('web:4999/predict', body=toJSON(data.frame(
           caract_dummy1=input$acidezfija,
           caract_dummy2=input$acidezvolatil, 
@@ -14,7 +14,14 @@ shinyServer(function(input, output) {
           caract_dummy10=input$sulfatos,
           caract_dummy11=input$alcohol)))
     })
+
+ observeEvent(input$predecir,{
+  prediccion <- GET('web:4999/predict')
+  df <- fromJSON(content(prediccion, as='text'))
+  output$prediccion_text = renderPrint(df)
+  })
     
+
     #recibe las caracteristicas de un nuevo vino para predecir su calidad:
   observeEvent(input$submit,{
         POST('web:4999/submit', body=toJSON(data.frame(

@@ -28,9 +28,7 @@ cur.execute("""SELECT
 FROM public.wine_quality""")
 rows = np.array(cur.fetchall())
 
-X_play = np.array([[6.0000e+00, 2.1000e-01, 3.8000e-01, 8.0000e-01, 2.0000e-02,
-        2.2000e+01, 9.8000e+01, 9.8941e-01, 3.2600e+00, 3.2000e-01,
-        1.1800e+01]])
+X_play = np.array([[7.3,0.65,0,1.2,0.065,15,21,0.9946,3.39,0.47,10]])
 
 if not len(rows):
     print("EMPTY")
