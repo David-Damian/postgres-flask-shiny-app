@@ -29,6 +29,7 @@ COPY /vinos-app ./app
 RUN Rscript -e 'install.packages("renv")'
 RUN Rscript -e 'renv::restore()'
 RUN R -e 'install.packages("tidyverse")'
+RUN R -e 'install.packages("markdown")'
 #install packages to make conection with PG
 RUN R -e 'install.packages(c("httr", "jsonlite", "DT"))'
 
