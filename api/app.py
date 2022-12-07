@@ -96,5 +96,31 @@ def delete():
     return f"Deleted id: {id}"
 
 
+@app.route("/submit", methods=['POST'])
+def submit():
+    record = json.loads(request.data)
+    record = list(x_input[0].values())[0]
+
+    cur = conn.cursor(cursor_factory=psycopg2.extras.NamedTupleCursor)
+    cur.execute(f"""INSERT INTO {schema}.{table}(
+        type,
+        fixed_acidity,
+        volatile_acidity,
+        citric_acid,
+        residual_sugar,
+        chlorides,
+        free_sulfur_dioxide,
+        total_sulfur_dioxide,
+        density,
+        ph,
+        sulphates,
+        alcohol,
+        quality)
+    VALUES ({record})""")
+    conn.commit()
+    cur.close()
+
+    return "New record added to DB"
+
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=4999, debug=True)
