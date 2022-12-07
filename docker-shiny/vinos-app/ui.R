@@ -17,6 +17,13 @@ shinyUI(
     #Body content
     dashboardBody(
       tabItems(
+        tabItem(tabName="general",
+                fluidPage(
+                 titlePanel("Descripción DB"), 
+                 div(shiny::includeMarkdown("aboutDB.md"), 
+                     align="justify")
+                )
+              ), #tabPanel(), About
         # 
         tabItem(tabName = "tabla",
                 fluidPage(
@@ -33,7 +40,7 @@ shinyUI(
                   )
                 ),
                   fluidRow(column(width = 12,
-                        dataTableOutput("tabla_datos")
+                        DT::dataTableOutput("tabla_datos")
         )
         ),
         ), #fin del tab Datos
@@ -80,7 +87,7 @@ shinyUI(
         
         tabItem(tabName = "resultado",
                 # Titulo del panel
-                titlePanel("Reentrenamiento del modelo"),
+                titlePanel("Create, Read, Update, Delete"),
                 fluidRow(column(width = 10,
                                   h3("Introduce las siguientes características de tu vino"),
                                   h4("Una vez que rellenas todas las casillas, picale al botón ´Añadir registros´")
@@ -88,19 +95,19 @@ shinyUI(
                   #Cajas input
                   box(
                     title = "Característica 1",
-                    numericInput("PH", label = "PH",value=2)
+                    numericInput(inputId ="PH", label = "PH",value=2)
       
                   ),
                   
                   box(
                     title = "Característica 2",
-                    numericInput("densidad", label = "Densidad",value=0.99)
+                    numericInput(inputId = "densidad", label = "Densidad",value=0.99)
                     
                   ),
                   
                   box(
                     title = "Característica 3",
-                    numericInput("Cantidad de alcohol", label = "Cantidad de alcohol",value=0.99)
+                    numericInput(inputId = "alcohol", label = "Cantidad de alcohol",value=0.99)
                     
                   ),
                   
@@ -116,11 +123,25 @@ shinyUI(
                   #Por el momento esta caja es un input. Cuando ya haya resultados cambiar por un output
                   box(
                     title = "Calidad pronósticada",
-                    numericInput("calidad", label = "Calidad",value=6)
+                    numericInput("calidad", label="Calidad",value=6)
                   ),
                   column(width = 2,
-                         actionButton("submit", "Añadir registros") # boton para submitear nuevos datos
+                         actionButton("submit", "Predecir") # boton para submitear nuevos datos
                   ),
+                  
+                  #Borrar registros a partir de su ID
+                  box(
+                    title = "Introduzca el ID  del registro a eliminar",
+                    numericInput("IDreg_delete", "ID",value=6)
+                  ),
+                  column(width = 2,
+                         actionButton("delete", "Borrar registro", 
+                                      icon= icon("trash-alt") ) # boton para borrar datos
+                  ),
+
+                  
+
+
                 )
         )
         )

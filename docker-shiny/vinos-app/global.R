@@ -3,6 +3,8 @@ library(shiny)
 library(shinydashboard)
 library(glue)
 library(tidyverse)
+library(htmltools)
+library(markdown)
 # libraries to make conection between PG and ShinyApp
 library(httr)
 library(jsonlite)
