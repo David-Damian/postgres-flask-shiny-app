@@ -30,8 +30,6 @@ def inicio():
 
 @app.route("/predict", methods=['GET', 'POST'])
 def predict():
-    
-    
     if request.method == 'POST':
         x_input = json.loads(request.data)
         x_input = np.array([list(x_input[0].values())])
@@ -55,10 +53,18 @@ def predict():
         results = predict_quality(rows, x_input)
         cur.close()
 
-        # Open a file
-        fo = open("results.txt", "w")
-        fo.write(str(results))
-        fo.close()
+        #Model results file
+        res_file = open("results.txt", "w")
+        res_file.write(str(results[0]))
+        res_file.close()
+
+        #Log file
+        log = open("log.txt", "w")
+        log.write(f"Input: {x_input}\n")
+        log.write(f"Scaled: {results[1]}\n")
+        log.write(f"Pred: {results[0]}\n")
+        log.write(f"Coefs: {results[2]}\n")
+        log.close()
 
         return str(results)
     

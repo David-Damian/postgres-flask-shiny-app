@@ -17,4 +17,4 @@ def predict_quality(trainset, X):
     model = lasso.fit(xtrain, ytrain)
     quality = model.predict(X).round()
 
-    return quality[0]
+    return (quality[0], X, model.coef_)
