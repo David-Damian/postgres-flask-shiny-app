@@ -41,6 +41,25 @@ wine_data$total_sulfur_dioxide <- as.double(wine_data$total_sulfur_dioxide)
           caract_dummy11=input$alcohol_c)))
     })
 
+  #RECIBE las caracteristicas de un nuevo vino y las manda a la AṔI para añadirlas a PG:
+  observeEvent(input$submit,{
+        POST('web:4999/submit', body=toJSON(data.frame(
+          caract_dummy0=input$tipo_s,
+          caract_dummy1=input$acidezfija_s,
+          caract_dummy2=input$acidezvolatil_s, 
+          caract_dummy3=input$acidcitric_s, 
+          caract_dummy4=input$azucarresidual_s,
+          caract_dummy5=input$cloruros_s,
+          caract_dummy6=input$so4libre_s,
+          caract_dummy7=input$so4total_s,
+          caract_dummy8=input$densidad_s,
+          caract_dummy9=input$PH_s,
+          caract_dummy10=input$sulfatos_s,
+          caract_dummy11=input$alcohol_s,
+          caract_dummy12=input$calidad_s
+          )))
+    })
+
  #recibe el ID de un registro y lo mapea en formato JSON a la ruta /delete
  observeEvent(input$delete,{
   POST('web:4999/delete', body=toJSON(data.frame(
