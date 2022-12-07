@@ -95,19 +95,19 @@ shinyUI(
                   #Cajas input
                   box(
                     title = "Característica 1",
-                    numericInput("PH", label = "PH",value=2)
+                    numericInput(inputId ="PH", label = "PH",value=2)
       
                   ),
                   
                   box(
                     title = "Característica 2",
-                    numericInput("densidad", label = "Densidad",value=0.99)
+                    numericInput(inputId = "densidad", label = "Densidad",value=0.99)
                     
                   ),
                   
                   box(
                     title = "Característica 3",
-                    numericInput("Cantidad de alcohol", label = "Cantidad de alcohol",value=0.99)
+                    numericInput(inputID = "alcohol", label = "Cantidad de alcohol",value=0.99)
                     
                   ),
                   
@@ -126,7 +126,7 @@ shinyUI(
                     numericInput("calidad", label = "Calidad",value=6)
                   ),
                   column(width = 2,
-                         actionButton("submit", "Añadir registros") # boton para submitear nuevos datos
+                         actionButton(inputID = "submit", "Predecir") # boton para submitear nuevos datos
                   ),
                   
                   #Borrar registros a partir de su ID
@@ -138,6 +138,10 @@ shinyUI(
                          actionButton(inputId = "delete", label= "Borrar registro", 
                                       icon= icon("trash-alt") ) # boton para borrar datos
                   ),
+
+                  
+
+
                 )
         )
         )

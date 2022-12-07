@@ -1,6 +1,12 @@
 shinyServer(function(input, output) {
-    set.seed(122)
-    histdata <- rnorm(500)
+  observeEvent(input$submit,{
+        POST('web:4999/predict', body=toJSON(data.frame(
+          caract_dummy1=input$PH,
+          caract_dummy2=input$densidad, 
+          caract_dummy3=input$alcohol, 
+          caract_dummy4=input$tipo)))
+    }) 
+
     
 #Tab Datos
     #Tabla
