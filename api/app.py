@@ -19,6 +19,7 @@ conn = psycopg2.connect(database_uri)
 
 app = Flask(__name__)
 
+
 @app.route('/')
 @app.route("/inicio", methods=['GET'])
 def inicio():
@@ -27,6 +28,7 @@ def inicio():
     results = cur.fetchall()
     cur.close()
     return json.dumps([x._asdict() for x in results], default=str)
+
 
 @app.route("/predict", methods=['GET', 'POST'])
 def predict():
@@ -59,7 +61,7 @@ def predict():
         res_file.close()
 
         #Log file
-        log = open("log.txt", "w")
+        log = open("log.txt", "a")
         log.write(f"Input: {x_input}\n")
         log.write(f"Scaled: {results[1]}\n")
         log.write(f"Pred: {results[0]}\n")
@@ -74,6 +76,24 @@ def predict():
         file.close()
 
         return str(results)
+
+
+@app.route("/delete", methods=['POST'])
+def delete():
+    id = json.loads(request.data)
+    id = [list(x_input[0].values())]
+
+    cur = conn.cursor(cursor_factory=psycopg2.extras.NamedTupleCursor)
+    cur.execute(f"""DELETE FROM {schema}.{table} WHERE id={id}""")
+    conn.commit()
+    cur.close()
+
+    #Log file
+    log = open("log.txt", "a")
+    log.write(f"Deleted id: {id}\n")
+    log.close()
+
+    return f"Deleted id: {id}"
 
 
 if __name__ == '__main__':
