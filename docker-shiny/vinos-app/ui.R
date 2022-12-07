@@ -198,66 +198,66 @@ shinyUI(
                   #acidez-fija
                   box(
                     title = "Característica 1",
-                    numericInput(inputId ="acidezfija", label = "Acidez fija",value=7.3)
+                    numericInput(inputId ="acidezfija_c", label = "Acidez fija",value=7.3)
       
                   ),
                   #acidez-volatil
                   box(
                     title = "Característica 2",
-                    numericInput(inputId ="acidezvolatil", label = "Acidez volatil",value=0.65)
+                    numericInput(inputId ="acidezvolatil_c", label = "Acidez volatil",value=0.65)
       
                   ),
                   #acid-citric
                   box(
                     title = "Característica 3",
-                    numericInput(inputId ="acidcitric", label = "Citricos",value=0)
+                    numericInput(inputId ="acidcitric_c", label = "Citricos",value=0)
       
                   ),
                   #azucar-residual
                   box(
                     title = "Característica 4",
-                    numericInput(inputId = "azucarresidual", label = "Azucar",value=1.2)
+                    numericInput(inputId = "azucarresidual_c", label = "Azucar",value=1.2)
                     
                   ),
 
                   #cloruros
                   box(
                     title = "Característica 5",
-                    numericInput(inputId = "cloruros", label = "CLoruros",value=0.065)
+                    numericInput(inputId = "cloruros_c", label = "CLoruros",value=0.065)
                     
                   ),
 
                  #so4 libre 
                   box(
                     title = "Característica 6",
-                    numericInput(inputId = "so4libre", label = "SO4 libre",value=15)
+                    numericInput(inputId = "so4libre_c", label = "SO4 libre",value=15)
                     
                   ),
                   #so4-total
                    box(
                     title = "Característica 7",
-                    numericInput(inputId = "so4total", label = "SO4 total",value=21)
+                    numericInput(inputId = "so4total_c", label = "SO4 total",value=21)
                     
                   ),
                   
                   #densidad
                    box(
                     title = "Característica 8",
-                    numericInput(inputId = "densidad", label = "Densidad",value=0.9946)
+                    numericInput(inputId = "densidad_c", label = "Densidad",value=0.9946)
                     
                   ),
 
                   #PH
                    box(
                     title = "Característica 9",
-                    numericInput(inputId = "PH", label = "pH",value=3.39)
+                    numericInput(inputId = "PH_c", label = "pH",value=3.39)
                     
                   ),
 
                   #sulfatos
                    box(
                     title = "Característica 10",
-                    numericInput(inputId = "sulfatos", label = "Sulfatos",value=0.47)
+                    numericInput(inputId = "sulfatos_c", label = "Sulfatos",value=0.47)
                     
                   ),
 
@@ -265,7 +265,7 @@ shinyUI(
                   #sulfatos
                    box(
                     title = "Característica 11",
-                    numericInput(inputId = "alcohol", label = "Alcohol",value=10)
+                    numericInput(inputId = "alcohol_c", label = "Alcohol",value=10)
                     
                   ),
 
