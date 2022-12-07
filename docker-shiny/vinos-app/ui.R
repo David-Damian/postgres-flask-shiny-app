@@ -107,7 +107,7 @@ shinyUI(
                   
                   box(
                     title = "Característica 3",
-                    numericInput(inputID = "alcohol", label = "Cantidad de alcohol",value=0.99)
+                    numericInput(inputId = "alcohol", label = "Cantidad de alcohol",value=0.99)
                     
                   ),
                   
@@ -123,19 +123,19 @@ shinyUI(
                   #Por el momento esta caja es un input. Cuando ya haya resultados cambiar por un output
                   box(
                     title = "Calidad pronósticada",
-                    numericInput("calidad", label = "Calidad",value=6)
+                    numericInput("calidad", label="Calidad",value=6)
                   ),
                   column(width = 2,
-                         actionButton(inputID = "submit", "Predecir") # boton para submitear nuevos datos
+                         actionButton("submit", "Predecir") # boton para submitear nuevos datos
                   ),
                   
                   #Borrar registros a partir de su ID
                   box(
                     title = "Introduzca el ID  del registro a eliminar",
-                    numericInput("IDreg_delete", label = "ID",value=6)
+                    numericInput("IDreg_delete", "ID",value=6)
                   ),
                   column(width = 2,
-                         actionButton(inputId = "delete", label= "Borrar registro", 
+                         actionButton("delete", "Borrar registro", 
                                       icon= icon("trash-alt") ) # boton para borrar datos
                   ),
 
