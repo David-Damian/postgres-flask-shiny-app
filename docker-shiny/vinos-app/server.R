@@ -1,16 +1,17 @@
+#Este archivo recibe, procesa y transforma datos que se mandan desde ui.R
+
 shinyServer(function(input, output) {
-
-#wine_data <- read_csv("winequality-red-raw.csv")
 url <- 'web:4999/'
-
 response <- GET(url) #"https://geeksforgeeks.org"
+
+#obtener base de datos en formato JSON
 wine_data <- fromJSON(content(response, as='text'))
 
-#Variables como factor
+#variables tipo factor: calidad y tipo de vino
 wine_data$quality <- as.factor(wine_data$quality)
 wine_data$type <- as.factor(wine_data$type)
 
-#Variables como double
+#variables tipo double: características químicas de los vinos
 wine_data$density <- as.double(wine_data$density)
 wine_data$fixed_acidity <- as.double(wine_data$fixed_acidity)
 wine_data$volatile_acidity <- as.double(wine_data$volatile_acidity)
@@ -22,12 +23,6 @@ wine_data$ph <- as.double(wine_data$ph)
 wine_data$sulphates <- as.double(wine_data$sulphates)
 wine_data$alcohol <- as.double(wine_data$alcohol)
 wine_data$total_sulfur_dioxide <- as.double(wine_data$total_sulfur_dioxide)
-
-
-
-
-
-
 
 
   #recibe las caracteristicas de un nuevo vino para predecir su calidad:
@@ -46,20 +41,20 @@ wine_data$total_sulfur_dioxide <- as.double(wine_data$total_sulfur_dioxide)
           caract_dummy11=input$alcohol_c)))
     })
 
+ #recibe el ID de un registro y lo mapea en formato JSON a la ruta /delete
  observeEvent(input$delete,{
   POST('web:4999/delete', body=toJSON(data.frame(
     caract_delid = input$IDreg_delete))
   )
   url <- 'web:4999/'
-
   response <- GET(url) #"https://geeksforgeeks.org"
   wine_data <- fromJSON(content(response, as='text'))
-
   #Variables como factor
   wine_data$quality <- as.factor(wine_data$quality)
   wine_data$type <- as.factor(wine_data$type)
   })
 
+#RECIBE de la API, el valor predicho para calidad de vino
  observeEvent(input$predecir,{
   prediccion <- GET('web:4999/predict')
   df <- fromJSON(content(prediccion, as='text'))
@@ -67,7 +62,7 @@ wine_data$total_sulfur_dioxide <- as.double(wine_data$total_sulfur_dioxide)
   })
 
 
-    #recibe las caracteristicas de un nuevo vino para predecir su calidad:
+  #MANDA a la API, caracteristicas de un nuevo vino 
   observeEvent(input$submit,{
         POST('web:4999/submit', body=toJSON(data.frame(
           caract_dummy1=input$acidezfija,
