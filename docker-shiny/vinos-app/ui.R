@@ -4,7 +4,7 @@ shinyUI(
     #Título dashboard
     dashboardHeader(title = "Vinos Dashboard"),
     
-    #sidebar content
+    #Contenidos del sidebar
     dashboardSidebar(
       sidebarMenu(
         menuItem("Información General", tabName = "general", icon = icon("info")),
@@ -13,6 +13,7 @@ shinyUI(
         menuItem("CRUD",tabName = "crud", icon = icon("recycle"),
           menuSubItem("Model Results",tabName = "resultado", icon = icon("chart-line")),
           menuSubItem("Create",tabName = "añadir", icon = icon("upload")),
+          menuSubItem("Update",tabName = "actualizar", icon = icon("update")),
           menuSubItem("Delete",tabName = "borrar", icon = icon("trash-alt"))
         )
       )
@@ -26,14 +27,14 @@ shinyUI(
                  titlePanel("Descripción DB"), 
                  div(shiny::includeMarkdown("aboutDB.md"), 
                      align="justify")
-                )
-              ), #tabPanel(), About
+                ) #fin fluidPage
+              ), #fin tabIem(), general
 
         tabItem(tabName = "tabla",
                 fluidPage(
-                  # Application title
+                  # Titulo del panel
                   titlePanel("Registros de cada vino y sus características"),
-                  # Mis objetos graficos
+                  # Objetos graficos de este panel
                   fluidRow(column(width = 10,
                                   h3("Registros de cada vino y sus características")
                   ),
@@ -41,13 +42,13 @@ shinyUI(
                          downloadButton(outputId = 'wine.csv',
                                         label = "Descargar .csv")
                   )
-                  )
-                ),
+                  ) #fin fluidRow
+                ), #fin fluidPage
                   fluidRow(column(width = 12,
                         DT::dataTableOutput("tabla_datos")))
-        ), #fin del tab Datos
+        ), #fin del tab tabla
         
-        #EDA tab content
+        #Contenido del tab EDA
         tabItem(tabName = "eda",
                 fluidRow(
                   #Grafica 1
@@ -56,7 +57,9 @@ shinyUI(
                   #Grafica 2
                   box(plotOutput("scatter",height = 250)),
                   
-                  #Cajas input
+                  #INPUTS de caracteristicas quimicas del vino
+
+                  #Desplegar carateristicas que el usuario puede comparar
                   box(
                     title = "Características",
                     selectInput("char", label = "Por favor seleccione la característica que desea explorar...",
@@ -76,6 +79,7 @@ shinyUI(
                                 selected = 'ph')
                   ),
                   
+                  #Seleccionar tipo de vino
                   box(
                     title = "Tipo de vino",
                       checkboxGroupInput("tipo", "selecciona el tipo de vino?",
@@ -86,23 +90,125 @@ shinyUI(
                       )
                   )
                 ),
-        
+        #Contenido del tab Create
         tabItem(tabName = "añadir",
                 # Titulo del panel
                 titlePanel("Create"),
                 fluidRow(
 
+                fluidRow(
+                    #Cajas input
+                  #acidez-fija
+                  box(
+                    title = "Característica 1",
+                    numericInput(inputId ="acidezfija_s", label = "Acidez fija",value=1)
+      
+                  ),
+                  #acidez-volatil
+                  box(
+                    title = "Característica 2",
+                    numericInput(inputId ="acidezvolatil_s", label = "Acidez volatil",value=2)
+      
+                  ),
+                  #acid-citric
+                  box(
+                    title = "Característica 3",
+                    numericInput(inputId ="acidcitric_s", label = "Citricos",value=3)
+      
+                  ),
+                  #azucar-residual
+                  box(
+                    title = "Característica 4",
+                    numericInput(inputId = "azucarresidual_s", label = "Azucar",value=4)
+                    
+                  ),
+
+                  #cloruros
+                  box(
+                    title = "Característica 5",
+                    numericInput(inputId = "cloruros_s", label = "CLoruros",value=5)
+                    
+                  ),
+
+                 #so4 libre 
+                  box(
+                    title = "Característica 6",
+                    numericInput(inputId = "so4libre_s", label = "SO4 libre",value=6)
+                    
+                  ),
+                  #so4-total
                    box(
-                    title = "Tipo de vino",
-                      checkboxGroupInput("tipo", "selecciona el tipo de vino?",
+                    title = "Característica 7",
+                    numericInput(inputId = "so4total_s", label = "SO4 total",value=7)
+                    
+                  ),
+                  
+                  #densidad
+                   box(
+                    title = "Característica 8",
+                    numericInput(inputId = "densidad_s", label = "Densidad",value=8)
+                    
+                  ),
+
+                  #PH
+                   box(
+                    title = "Característica 9",
+                    numericInput(inputId = "PH_s", label = "pH",value=9)
+                    
+                  ),
+
+                  #sulfatos
+                   box(
+                    title = "Característica 10",
+                    numericInput(inputId = "sulfatos_s", label = "Sulfatos",value=10)
+                    
+                  ),
+
+
+                  #sulfatos
+                   box(
+                    title = "Característica 11",
+                    numericInput(inputId = "alcohol_s", label = "Alcohol",value=11)
+                    
+                  ),
+
+                  #Por el momento esta caja es un input. Cuando ya haya resultados cambiar por un output
+                  box(
+                    title = "Caracteristica 12",
+                    numericInput("calidad_s", label="Calidad",value=6)
+                  ),
+
+                  box(
+                    title = "Caracteristica 13",
+                      checkboxGroupInput("tipo_s", "Tipo de vino",
                                    list(
                                      "Rojo"="red",
                                      "Blanco"="white"
                                    ),selected = "red")
                       ),
+                      
+                  column(width = 2,
+                         actionButton("submit", "Añadir registro") # boton para submitear nuevos datos
+                  )
+                ) #end fluidrow de crear
+
+                )
+                ),
+
+        tabItem(tabName = "actualizar",
+                # Titulo del panel
+                titlePanel("Actualizar"),
+                fluidRow(
 
                 fluidRow(
-                    #Cajas input
+                    #Cajas input                
+   
+                  #ID
+                  box(
+                    title = "Introduzca el ID  del registro a Actualizar",
+                    numericInput("IDactualizar", "ID", value = 1)
+                  ),                 
+
                   #acidez-fija
                   box(
                     title = "Característica 1",
@@ -179,11 +285,21 @@ shinyUI(
 
                   #Por el momento esta caja es un input. Cuando ya haya resultados cambiar por un output
                   box(
-                    title = "Calidad pronósticada",
+                    title = "Caracteristica 12",
                     numericInput("calidad", label="Calidad",value=6)
                   ),
+
+                  box(
+                    title = "Caracteristica 13",
+                      checkboxGroupInput("tipo", "Tipo de vino",
+                                   list(
+                                     "Rojo"="red",
+                                     "Blanco"="white"
+                                   ),selected = "red")
+                      ),
+                      
                   column(width = 2,
-                         actionButton("submit", "Añadir registro") # boton para submitear nuevos datos
+                         actionButton("update", "Actualizar registro") # boton para submitear nuevos datos
                   )
                 ) #end fluidrow de predecir
 
