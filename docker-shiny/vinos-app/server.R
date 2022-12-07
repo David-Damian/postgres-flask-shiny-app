@@ -15,12 +15,18 @@ shinyServer(function(input, output) {
           caract_dummy11=input$alcohol_c)))
     })
 
+ observeEvent(input$delete,{
+  POST('web:4999/delete', body=toJSON(data.frame(
+    caract_delid = input$IDreg_delete))
+  )
+  })
+
  observeEvent(input$predecir,{
   prediccion <- GET('web:4999/predict')
   df <- fromJSON(content(prediccion, as='text'))
   output$prediccion_text = renderPrint(df)
   })
-    
+
 
     #recibe las caracteristicas de un nuevo vino para predecir su calidad:
   observeEvent(input$submit,{
