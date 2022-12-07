@@ -81,7 +81,7 @@ def predict():
 @app.route("/delete", methods=['POST'])
 def delete():
     id = json.loads(request.data)
-    id = [list(x_input[0].values())]
+    id = list(id[0].values())[0]
 
     cur = conn.cursor(cursor_factory=psycopg2.extras.NamedTupleCursor)
     cur.execute(f"""DELETE FROM {schema}.{table} WHERE id={id}""")
