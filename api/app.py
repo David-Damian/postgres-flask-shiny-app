@@ -99,10 +99,10 @@ def delete():
 @app.route("/submit", methods=['POST'])
 def submit():
     record = json.loads(request.data)
-    record = list(x_input[0].values())[0]
+    record = list(record[0].values())
 
     cur = conn.cursor(cursor_factory=psycopg2.extras.NamedTupleCursor)
-    cur.execute(f"""INSERT INTO {schema}.{table}(
+    query = f"""INSERT INTO {schema}.{table}(
         type,
         fixed_acidity,
         volatile_acidity,
@@ -116,10 +116,30 @@ def submit():
         sulphates,
         alcohol,
         quality)
-    VALUES ({record})""")
+    VALUES (
+        '{record[0]}',
+        {record[1]},
+        {record[2]},
+        {record[3]},
+        {record[4]},
+        {record[5]},
+        {record[6]},
+        {record[7]},
+        {record[8]},
+        {record[9]},
+        {record[10]},
+        {record[11]},
+        {record[12]})"""
+    cur.execute(query)
     conn.commit()
     cur.close()
 
+    #Log file
+    log = open("log.txt", "a")
+    log.write(f'{record}\n')
+    log.write(f'{record[11]}\n')
+    log.write(query)
+    log.close()
     return "New record added to DB"
 
 if __name__ == '__main__':
