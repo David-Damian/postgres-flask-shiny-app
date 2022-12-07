@@ -2,17 +2,17 @@ shinyServer(function(input, output) {
   #recibe las caracteristicas de un nuevo vino para predecir su calidad:
   observeEvent(input$confirmar,{
         POST('web:4999/predict', body=toJSON(data.frame(
-          caract_dummy1=input$acidezfija,
-          caract_dummy2=input$acidezvolatil, 
-          caract_dummy3=input$acidcitric, 
-          caract_dummy4=input$azucarresidual,
-          caract_dummy5=input$cloruros,
-          caract_dummy6=input$so4libre,
-          caract_dummy7=input$so4total,
-          caract_dummy8=input$densidad,
-          caract_dummy9=input$PH,
-          caract_dummy10=input$sulfatos,
-          caract_dummy11=input$alcohol)))
+          caract_dummy1=input$acidezfija_c,
+          caract_dummy2=input$acidezvolatil_c, 
+          caract_dummy3=input$acidcitric_c, 
+          caract_dummy4=input$azucarresidual_c,
+          caract_dummy5=input$cloruros_c,
+          caract_dummy6=input$so4libre_c,
+          caract_dummy7=input$so4total_c,
+          caract_dummy8=input$densidad_c,
+          caract_dummy9=input$PH_c,
+          caract_dummy10=input$sulfatos_c,
+          caract_dummy11=input$alcohol_c)))
     })
 
  observeEvent(input$predecir,{
