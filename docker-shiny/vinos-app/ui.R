@@ -11,8 +11,10 @@ shinyUI(
         menuItem("Datos", tabName = "tabla", icon = icon("table")),
         menuItem("EDA",tabName = "eda",icon = icon("magnifying-glass")),
         menuItem("CRUD",tabName = "crud", icon = icon("recycle"),
-          menuSubItem("Create",tabName = "añadir", icon = icon("chart-line"),
-          menuSubItem("Delete",tabName = "borrar", icon = icon("trash-alt")))
+          menuSubItem("Create",tabName = "resultado", icon = icon("chart-line")),
+          menuSubItem("Create",tabName = "añadir", icon = icon("chart-line")),
+          menuSubItem("Delete",tabName = "borrar", icon = icon("trash-alt"))
+        )
       )
     ),
     
@@ -26,7 +28,7 @@ shinyUI(
                      align="justify")
                 )
               ), #tabPanel(), About
-        # 
+
         tabItem(tabName = "tabla",
                 fluidPage(
                   # Application title
@@ -88,10 +90,8 @@ shinyUI(
         tabItem(tabName = "resultado",
                 # Titulo del panel
                 titlePanel("Create, Read, Update, Delete"),
-                fluidRow(column(width = 10,
-                                  h3("Introduce las siguientes características de tu vino"),
-                                  h4("Una vez que rellenas todas las casillas, picale al botón ´Añadir registros´")
-                  ),
+                fluidRow()
+                ),
 
         tabItem(tabName = "añadir",
                 # Titulo del panel
@@ -181,8 +181,8 @@ shinyUI(
                          actionButton("submit", "Predecir") # boton para submitear nuevos datos
                   )
                 )
-        )
-        ),
+        ), # end añadir
+        
 
         tabItem(tabName = "borrar",
                 # Titulo del panel
@@ -198,10 +198,8 @@ shinyUI(
                                       icon= icon("trash-alt") ) # boton para borrar datos
                   )
                         ) #end fluid row
-        )
-      )
-    ) # end tab items
-    ) #end dashboard body
-    )#end dashboardsidebar
-) #end dashboardpage
+        )#end tab item borrar
+      ) # end tab items
+    ) #end dashboard body 
+  ) #end dashboardpage
 ) #end shinyapp
