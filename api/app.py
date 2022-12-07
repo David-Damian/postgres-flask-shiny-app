@@ -57,7 +57,7 @@ def predict():
 
         # Open a file
         fo = open("results.txt", "w")
-        fo.write(f"Prediction: {str(results)}")
+        fo.write(str(results))
         fo.close()
 
         return str(results)
@@ -65,7 +65,7 @@ def predict():
     if request.method == 'GET':
         file = open("results.txt", "r")
         results = file.read()
-        results.close()
+        file.close()
 
         return str(results)
 

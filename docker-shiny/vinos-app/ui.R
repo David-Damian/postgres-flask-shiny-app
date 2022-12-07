@@ -272,13 +272,17 @@ shinyUI(
                   #Por el momento esta caja es un input. Cuando ya haya resultados cambiar por un output
                   box(
                     title = "Calidad pronósticada",
-                    numericInput("calidad", label="Calidad",value=6)
+                    textOutput(outputId = "prediccion_text")
                   ),
+                  column(width = 2,
+                         actionButton("confirmar", "Confirmar") # boton para submitear nuevos datos
+                  ),
+
                   column(width = 2,
                          actionButton("predecir", "Predecir") # boton para submitear nuevos datos
                   )
                 ) #end fluidrow de predecir
-        ), # end añadir
+        ), # end predecir
         
 
         tabItem(tabName = "borrar",
