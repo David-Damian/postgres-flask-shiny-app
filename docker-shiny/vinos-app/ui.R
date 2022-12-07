@@ -10,7 +10,11 @@ shinyUI(
         menuItem("Información General", tabName = "general", icon = icon("info")),
         menuItem("Datos", tabName = "tabla", icon = icon("table")),
         menuItem("EDA",tabName = "eda",icon = icon("magnifying-glass")),
-        menuItem("Resultado Modelo",tabName = "resultado", icon = icon("chart-line"))
+        menuItem("CRUD",tabName = "crud", icon = icon("recycle"),
+          menuSubItem("Model Results",tabName = "resultado", icon = icon("chart-line")),
+          menuSubItem("Create",tabName = "añadir", icon = icon("chart-line")),
+          menuSubItem("Delete",tabName = "borrar", icon = icon("trash-alt"))
+        )
       )
     ),
     
@@ -24,7 +28,7 @@ shinyUI(
                      align="justify")
                 )
               ), #tabPanel(), About
-        # 
+
         tabItem(tabName = "tabla",
                 fluidPage(
                   # Application title
@@ -40,9 +44,7 @@ shinyUI(
                   )
                 ),
                   fluidRow(column(width = 12,
-                        DT::dataTableOutput("tabla_datos")
-        )
-        ),
+                        DT::dataTableOutput("tabla_datos")))
         ), #fin del tab Datos
         
         #EDA tab content
@@ -88,38 +90,88 @@ shinyUI(
         tabItem(tabName = "resultado",
                 # Titulo del panel
                 titlePanel("Create, Read, Update, Delete"),
-                fluidRow(column(width = 10,
-                                  h3("Introduce las siguientes características de tu vino"),
-                                  h4("Una vez que rellenas todas las casillas, picale al botón ´Añadir registros´")
-                  ),
+                fluidRow()
+                ),
+
+        tabItem(tabName = "añadir",
+                # Titulo del panel
+                titlePanel("Create"),
+                fluidRow(
                   #Cajas input
+                  #acidez-fija
                   box(
                     title = "Característica 1",
-                    numericInput(inputId ="PH", label = "PH",value=2)
+                    numericInput(inputId ="acidezfija", label = "Acidez fija",value=1)
       
                   ),
-                  
+                  #acidez-volatil
                   box(
                     title = "Característica 2",
-                    numericInput(inputId = "densidad", label = "Densidad",value=0.99)
-                    
+                    numericInput(inputId ="acidezvolatil", label = "Acidez volatil",value=2)
+      
                   ),
-                  
+                  #acid-citric
                   box(
                     title = "Característica 3",
-                    numericInput(inputId = "alcohol", label = "Cantidad de alcohol",value=0.99)
+                    numericInput(inputId ="acidcitric", label = "Citricos",value=3)
+      
+                  ),
+                  #azucar-residual
+                  box(
+                    title = "Característica 4",
+                    numericInput(inputId = "azucarresidual", label = "Azucar",value=4)
+                    
+                  ),
+
+                  #cloruros
+                  box(
+                    title = "Característica 5",
+                    numericInput(inputId = "cloruros", label = "CLoruros",value=5)
+                    
+                  ),
+
+                 #so4 libre 
+                  box(
+                    title = "Característica 6",
+                    numericInput(inputId = "so4libre", label = "SO4 libre",value=6)
+                    
+                  ),
+                  #so4-total
+                   box(
+                    title = "Característica 7",
+                    numericInput(inputId = "so4total", label = "SO4 total",value=7)
                     
                   ),
                   
-                  
-                  box(
-                    title = "Caracteristica 5",
-                    checkboxGroupInput("tipo", "Tipo de vino",
-                                       list(
-                                         "Rojo"="red",
-                                         "Blanco"="white"
-                                       ),selected = "red")
+                  #densidad
+                   box(
+                    title = "Característica 8",
+                    numericInput(inputId = "densidad", label = "Densidad",value=8)
+                    
                   ),
+
+                  #PH
+                   box(
+                    title = "Característica 9",
+                    numericInput(inputId = "PH", label = "pH",value=9)
+                    
+                  ),
+
+                  #sulfatos
+                   box(
+                    title = "Característica 10",
+                    numericInput(inputId = "sulfatos", label = "Sulfatos",value=10)
+                    
+                  ),
+
+
+                  #sulfatos
+                   box(
+                    title = "Característica 11",
+                    numericInput(inputId = "alcohol", label = "Alcohol",value=11)
+                    
+                  ),
+
                   #Por el momento esta caja es un input. Cuando ya haya resultados cambiar por un output
                   box(
                     title = "Calidad pronósticada",
@@ -127,9 +179,16 @@ shinyUI(
                   ),
                   column(width = 2,
                          actionButton("submit", "Predecir") # boton para submitear nuevos datos
-                  ),
-                  
-                  #Borrar registros a partir de su ID
+                  )
+                )
+        ), # end añadir
+        
+
+        tabItem(tabName = "borrar",
+                # Titulo del panel
+                titlePanel("Delete"),
+                fluidRow(
+                      #Borrar registros a partir de su ID
                   box(
                     title = "Introduzca el ID  del registro a eliminar",
                     numericInput("IDreg_delete", "ID",value=6)
@@ -137,14 +196,10 @@ shinyUI(
                   column(width = 2,
                          actionButton("delete", "Borrar registro", 
                                       icon= icon("trash-alt") ) # boton para borrar datos
-                  ),
-
-                  
-
-
-                )
-        )
-        )
-      )
-    )
-)
+                  )
+                        ) #end fluid row
+        )#end tab item borrar
+      ) # end tab items
+    ) #end dashboard body 
+  ) #end dashboardpage
+) #end shinyapp
