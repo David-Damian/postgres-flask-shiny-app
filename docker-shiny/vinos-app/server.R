@@ -2,7 +2,7 @@
 
 shinyServer(function(input, output) {
 url <- 'web:4999/'
-response <- GET(url) #"https://geeksforgeeks.org"
+response <- GET(url) 
 
 #obtener base de datos en formato JSON
 wine_data <- fromJSON(content(response, as='text'))
@@ -11,7 +11,7 @@ wine_data <- fromJSON(content(response, as='text'))
 wine_data$quality <- as.factor(wine_data$quality)
 wine_data$type <- as.factor(wine_data$type)
 
-#variables tipo double: características químicas de los vinos
+#Convertimos a tipo double las características químicas de los vinos
 wine_data$density <- as.double(wine_data$density)
 wine_data$fixed_acidity <- as.double(wine_data$fixed_acidity)
 wine_data$volatile_acidity <- as.double(wine_data$volatile_acidity)
@@ -24,24 +24,24 @@ wine_data$sulphates <- as.double(wine_data$sulphates)
 wine_data$alcohol <- as.double(wine_data$alcohol)
 wine_data$total_sulfur_dioxide <- as.double(wine_data$total_sulfur_dioxide)
 
-
-  #recibe las caracteristicas de un nuevo vino para predecir su calidad:
+#PREDECIR
+  #Se envia a la ruta /predict las caracteristicas de un nuevo vino que del cual se quiere predecir calidad:
   observeEvent(input$confirmar,{
         POST('web:4999/predict', body=toJSON(data.frame(
-          caract_dummy1=input$acidezfija_c,
           caract_dummy2=input$acidezvolatil_c, 
-          caract_dummy3=input$acidcitric_c, 
-          caract_dummy4=input$azucarresidual_c,
-          caract_dummy5=input$cloruros_c,
-          caract_dummy6=input$so4libre_c,
-          caract_dummy7=input$so4total_c,
           caract_dummy8=input$densidad_c,
-          caract_dummy9=input$PH_c,
-          caract_dummy10=input$sulfatos_c,
           caract_dummy11=input$alcohol_c)))
     })
 
-  #RECIBE las caracteristicas de un nuevo vino y las manda a la AṔI para añadirlas a PG:
+  #RECIBE de la API, el valor predicho para calidad de vino
+  observeEvent(input$predecir,{
+          prediccion <- GET('web:4999/predict')
+          df <- fromJSON(content(prediccion, as='text'))
+          output$prediccion_text = renderPrint(df)
+  })
+
+#CREATE
+  #Envia a la Aruta /submit, caracteristicas de un nuevo vino para que la API la añada a la base de datos PG:
   observeEvent(input$submit,{
         POST('web:4999/submit', body=toJSON(data.frame(
           caract_dummy0=input$tipo_s,
@@ -60,7 +60,9 @@ wine_data$total_sulfur_dioxide <- as.double(wine_data$total_sulfur_dioxide)
           )))
     })
 
- #recibe el ID de un registro y lo mapea en formato JSON a la ruta /delete
+#DELETE
+
+ #LEE un ID y lo mapea, en formato JSON, a la ruta /delete
  observeEvent(input$delete,{
   POST('web:4999/delete', body=toJSON(data.frame(
     caract_delid = input$IDreg_delete))
@@ -98,24 +100,16 @@ wine_data$total_sulfur_dioxide <- as.double(wine_data$total_sulfur_dioxide)
   wine_data$type <- as.factor(wine_data$type)
   })
 
-
-
-#RECIBE de la API, el valor predicho para calidad de vino
- observeEvent(input$predecir,{
-  prediccion <- GET('web:4999/predict')
-  df <- fromJSON(content(prediccion, as='text'))
-  output$prediccion_text = renderPrint(df)
-  })
-
     
-#Tab Datos
-    #Tabla
+#GRAFICAS DEL TAB 'DATOS'
+
+    #Mostrar base de datos en forma de Data Table
     output$tabla_datos <- renderDataTable(expr = wine_data,
-                                            options = list(pageLength = 10)
+                                                 options = list(pageLength = 10)
     )
     
     
-    #Boton Descargar 
+    #Descarga el csv de la BD cuando se presiona botón Descargar 
     output$wine.csv <- downloadHandler(contentType = 'text/csv',
                                                 filename = 'winequality-red-raw.csv.csv',
                                                 content = function(file) {
@@ -123,17 +117,7 @@ wine_data$total_sulfur_dioxide <- as.double(wine_data$total_sulfur_dioxide)
                                                 }
     )
     
-    #Tab EDA
-    output$plot1 <- renderPlot({
-      data <- histdata[seq_len(input$slider)]
-      hist(data)
-    })
-    
-    output$plot2 <- renderPlot({
-      data <- histdata[seq_len(input$slider)]
-      hist(data)
-    })
-    
+#GRAFICAS DEL TAB 'EDA'
     output$caract <- renderPlot({
       req(input$char)
       data <- wine_data %>% 
@@ -142,7 +126,8 @@ wine_data$total_sulfur_dioxide <- as.double(wine_data$total_sulfur_dioxide)
       ggplot(data = data)+geom_boxplot(aes_string(x = "quality", y = input$char), 
                                        color="red", fill="orange", alpha=0.2)
     })
-    
+
+  #Graifca de dispersion para dos caracterísitcas selecionadas
     output$scatter <- renderPlot({
       req(input$char)
       data <- wine_data %>%
@@ -152,4 +137,3 @@ wine_data$total_sulfur_dioxide <- as.double(wine_data$total_sulfur_dioxide)
     })
   
   })
-

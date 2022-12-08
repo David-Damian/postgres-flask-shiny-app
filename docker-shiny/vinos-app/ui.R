@@ -2,7 +2,7 @@ shinyUI(
     dashboardPage(
     
     #Título dashboard
-    dashboardHeader(title = "Vinos Dashboard"),
+    dashboardHeader(title = "Dashboard de vinos"),
     
     #Contenidos del sidebar
     dashboardSidebar(
@@ -19,9 +19,11 @@ shinyUI(
       )
     ),
     
-    #Body content
+    #Contenido del dashboard
     dashboardBody(
+
       tabItems(
+        #Pestaña de descripción de la base de datos
         tabItem(tabName="general",
                 fluidPage(
                  titlePanel("Descripción DB"), 
@@ -30,6 +32,7 @@ shinyUI(
                 ) #fin fluidPage
               ), #fin tabIem(), general
 
+        #Pestaña que despliega en una tabla, todos los registros de la BD
         tabItem(tabName = "tabla",
                 fluidPage(
                   # Titulo del panel
@@ -48,9 +51,14 @@ shinyUI(
                         DT::dataTableOutput("tabla_datos")))
         ), #fin del tab tabla
         
-        #Contenido del tab EDA
+        #Contenido de la pestaña del EDA
         tabItem(tabName = "eda",
                 fluidRow(
+                  titlePanel("¡A explorar la base de datos!"),
+
+                  column(width = 10,
+                                  h3("Aquí podrás explorar diversas características de los vinos y compararlas entre ellas")
+                  ),
                   #Grafica 1
                   box(plotOutput("caract",height = 250)),
                   
@@ -90,14 +98,17 @@ shinyUI(
                       )
                   )
                 ),
-        #Contenido del tab Create
+
+        #Contenido de la pestaña Create
         tabItem(tabName = "añadir",
                 # Titulo del panel
                 titlePanel("Create"),
                 fluidRow(
-
+                column(width = 10,
+                                  h3("¿deseas añadir un nuevo registro a la BD? Rellena las casillas")
+                  ),
                 fluidRow(
-                    #Cajas input
+                  #Cajas input
                   #acidez-fija
                   box(
                     title = "Característica 1",
@@ -172,7 +183,7 @@ shinyUI(
                     
                   ),
 
-                  #Por el momento esta caja es un input. Cuando ya haya resultados cambiar por un output
+                  #Calidad
                   box(
                     title = "Caracteristica 12",
                     numericInput("calidad_s", label="Calidad",value=6)
@@ -195,11 +206,14 @@ shinyUI(
                 )
                 ),
 
+        #Pestaña de contenido para modificar registros de la base de datos
         tabItem(tabName = "actualizar",
                 # Titulo del panel
                 titlePanel("Actualizar"),
                 fluidRow(
-
+                  column(width = 10,
+                          h3("¿deseas modificar un registro a la BD? Introduce lo siguiente")
+                  ),
                 fluidRow(
                     #Cajas input                
 
@@ -283,7 +297,7 @@ shinyUI(
                     
                   ),
 
-                  #Por el momento esta caja es un input. Cuando ya haya resultados cambiar por un output
+                  #Calidad
                   box(
                     title = "Caracteristica 12",
                     numericInput("calidad_u", label="Calidad",value=0)
@@ -306,86 +320,38 @@ shinyUI(
                 )
                 ),
 
+        #Contenido de la pestaña Predecir:
         tabItem(tabName = "resultado",
                 # Titulo del panel
                 titlePanel("Predecir"),
                 fluidRow(
-                  #Cajas input
-                  #acidez-fija
-                  box(
-                    title = "Característica 1",
-                    numericInput(inputId ="acidezfija_c", label = "Acidez fija",value=7.3)
-      
+                  column(width = 10,
+                                  h3("¿Qué tan fino es tu vino? Rellena las casillas para predecir su calidad")
                   ),
+                  #Inputs necesarios para predecir: acidez volatil, densidad, alcohol, quality
+
                   #acidez-volatil
                   box(
-                    title = "Característica 2",
-                    numericInput(inputId ="acidezvolatil_c", label = "Acidez volatil",value=0.65)
+                    title = "Acidez volatil",
+                    numericInput(inputId ="acidezvolatil_c", label = " ",value=0.65)
       
-                  ),
-                  #acid-citric
-                  box(
-                    title = "Característica 3",
-                    numericInput(inputId ="acidcitric_c", label = "Citricos",value=0)
-      
-                  ),
-                  #azucar-residual
-                  box(
-                    title = "Característica 4",
-                    numericInput(inputId = "azucarresidual_c", label = "Azucar",value=1.2)
-                    
-                  ),
-
-                  #cloruros
-                  box(
-                    title = "Característica 5",
-                    numericInput(inputId = "cloruros_c", label = "CLoruros",value=0.065)
-                    
-                  ),
-
-                 #so4 libre 
-                  box(
-                    title = "Característica 6",
-                    numericInput(inputId = "so4libre_c", label = "SO4 libre",value=15)
-                    
-                  ),
-                  #so4-total
-                   box(
-                    title = "Característica 7",
-                    numericInput(inputId = "so4total_c", label = "SO4 total",value=21)
-                    
                   ),
                   
                   #densidad
                    box(
-                    title = "Característica 8",
-                    numericInput(inputId = "densidad_c", label = "Densidad",value=0.9946)
+                    title = "Densidad",
+                    numericInput(inputId = "densidad_c", label = " ",value=0.9946)
                     
                   ),
 
-                  #PH
+                  #alcohol
                    box(
-                    title = "Característica 9",
-                    numericInput(inputId = "PH_c", label = "pH",value=3.39)
-                    
-                  ),
-
-                  #sulfatos
-                   box(
-                    title = "Característica 10",
-                    numericInput(inputId = "sulfatos_c", label = "Sulfatos",value=0.47)
-                    
-                  ),
-
-
-                  #sulfatos
-                   box(
-                    title = "Característica 11",
+                    title = "Cantidad de alcohol",
                     numericInput(inputId = "alcohol_c", label = "Alcohol",value=10)
                     
                   ),
 
-                  #Por el momento esta caja es un input. Cuando ya haya resultados cambiar por un output
+                  #Caja que muestra en pantalla la predicción que recibe desde la API
                   box(
                     title = "Calidad pronósticada",
                     textOutput(outputId = "prediccion_text")
@@ -400,12 +366,15 @@ shinyUI(
                 ) #end fluidrow de predecir
         ), # end predecir
         
-
+        #Contenido de la pestaña Delete
         tabItem(tabName = "borrar",
                 # Titulo del panel
                 titlePanel("Delete"),
                 fluidRow(
-                      #Borrar registros a partir de su ID
+                  column(width = 10,
+                                  h3("¿deseas borrar un registro BD? Introduce su identificador(ID)")
+                  ),
+                  #Borrar registros a partir de su ID
                   box(
                     title = "Introduzca el ID  del registro a eliminar",
                     numericInput("IDreg_delete", "ID",value=6)
@@ -414,7 +383,7 @@ shinyUI(
                          actionButton("delete", "Borrar registro", 
                                       icon= icon("trash-alt") ) # boton para borrar datos
                   )
-                        ) #end fluid row
+                ) #end fluid row
         )#end tab item borrar
       ) # end tab items
     ) #end dashboard body 
