@@ -13,7 +13,7 @@ shinyUI(
         menuItem("CRUD",tabName = "crud", icon = icon("recycle"),
           menuSubItem("Model Results",tabName = "resultado", icon = icon("chart-line")),
           menuSubItem("Create",tabName = "añadir", icon = icon("upload")),
-          menuSubItem("Update",tabName = "actualizar", icon = icon("update")),
+          menuSubItem("Update",tabName = "actualizar", icon = icon("arrows-rotate")),
           menuSubItem("Delete",tabName = "borrar", icon = icon("trash-alt"))
         )
       )
