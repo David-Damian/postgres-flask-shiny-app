@@ -40,7 +40,7 @@ cur.execute("""INSERT INTO wine_quality(
         10,
         11,
         12)""")
-cur.execute("select * from winequality order by desc limit 1")
+cur.execute("select * from wine_quality order by id desc limit 1")
 rows = np.array(cur.fetchall())
 
 X_play = np.array([[7.3,0.65,0,1.2,0.065,15,21,0.9946,3.39,0.47,10]])
