@@ -90,7 +90,7 @@ shinyUI(
                   #Seleccionar tipo de vino
                   box(
                     title = "Tipo de vino",
-                      checkboxGroupInput("tipo", "selecciona el tipo de vino?",
+                      checkboxGroupInput("tipo", "selecciona el tipo de vino? (solo uno)",
                                    list(
                                      "Rojo"="red",
                                      "Blanco"="white"
@@ -191,7 +191,7 @@ shinyUI(
 
                   box(
                     title = "Caracteristica 13",
-                      checkboxGroupInput("tipo_s", "Tipo de vino",
+                      checkboxGroupInput("tipo_s", "Tipo de vino (solo uno)",
                                    list(
                                      "Rojo"="red",
                                      "Blanco"="white"
@@ -305,7 +305,7 @@ shinyUI(
 
                   box(
                     title = "Caracteristica 13",
-                      checkboxGroupInput("tipo_u", "Tipo de vino",
+                      checkboxGroupInput("tipo_u", "Tipo de vino (solo uno)",
                                    list(
                                      "Rojo"="red",
                                      "Blanco"="white"
@@ -347,7 +347,7 @@ shinyUI(
                   #alcohol
                    box(
                     title = "Cantidad de alcohol",
-                    numericInput(inputId = "alcohol_c", label = "Alcohol",value=10)
+                    numericInput(inputId = "alcohol_c", label = " ",value=10)
                     
                   ),
 
