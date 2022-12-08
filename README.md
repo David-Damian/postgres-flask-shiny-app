@@ -1,7 +1,7 @@
 ## Integrantes
-- David Damian Arbeu
-- Miguel Ángel Castañeda Martínez
-- José Eduardo Gutiérrez Navarrete
+- [David Damian Arbeu](https://github.com/David-Damian)
+- [Miguel Ángel Castañeda Martínez](https://github.com/CAMM961001)
+- [José Eduardo Gutiérrez Navarrete](https://github.com/Navarreteed)
 
 ## Explicación del problema de negocio
 El principal objetivo de la aplicación presentada es que a partir de ciertas caracteristicas quimicas de un vino sea capaz de predecir la calidad del mismo. Adicionalmente, ésta presenta al usuario una tabla con información de alrededor de 6,500 vinos diferentes, con la cual es posible explorar gráficamente las relaciones entre características.
