@@ -98,8 +98,20 @@ def delete():
 
 @app.route("/submit", methods=['POST'])
 def submit():
+    #Log file
+    log = open("log.txt", "a")
+    
     record = json.loads(request.data)
-    record = list(record[0].values())
+    log.write(f'json: {record}\n\n')
+
+    record = record[0]
+    log.write(f'pos 0: {record}\n\n')
+
+    record = record.values()
+    log.write(f'values: {record}\n\n')
+    
+    record = list(record)
+    log.write(f'list: {record}\n\n')
 
     cur = conn.cursor(cursor_factory=psycopg2.extras.NamedTupleCursor)
     query = f"""INSERT INTO {schema}.{table}(
@@ -129,17 +141,17 @@ def submit():
         {record[9]},
         {record[10]},
         {record[11]},
-        {record[12]})"""
+        {record[12]}
+        );"""
+
+    log.write(f'len: {len(record)}\n\n')
+    log.write(query)
+    log.close()
+    
     cur.execute(query)
     conn.commit()
     cur.close()
 
-    #Log file
-    log = open("log.txt", "a")
-    log.write(f'{record}\n')
-    log.write(f'{record[11]}\n')
-    log.write(query)
-    log.close()
     return "New record added to DB"
 
 if __name__ == '__main__':
