@@ -154,5 +154,43 @@ def submit():
 
     return "New record added to DB"
 
+
+@app.route("/update", methods=['POST'])
+def update():
+    row = json.loads(request.data)
+    row = list(row[0].values())
+
+    query = f"""
+    UPDATE {schema}.{table}
+    SET type = '{row[1]}',
+        fixed_acidity = {row[2]},
+        volatile_acidity = {row[3]},
+        citric_acid = {row[4]},
+        residual_sugar = {row[5]},
+        chlorides = {row[6]},
+        free_sulfur_dioxide = {row[7]},
+        total_sulfur_dioxide = {row[8]},
+        density = {row[9]},
+        ph = {row[10]},
+        sulphates = {row[11]},
+        alcohol = {row[12]},
+        quality = {row[13]}
+    WHERE id = {row[0]};
+    """
+
+    #Log file
+    log = open("log.txt", "a")
+    log.write(f"row: {row}\n")
+    log.write(f"query: {query}\n")
+    log.close()
+
+    cur = conn.cursor(cursor_factory=psycopg2.extras.NamedTupleCursor)
+    cur.execute(query)
+    conn.commit()
+    cur.close()
+
+    return f"Update id: {row[0]}"
+
+
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=4999, debug=True)
