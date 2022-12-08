@@ -1,20 +1,38 @@
 import numpy as np
 from sklearn.linear_model import Lasso
-from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import StandardScaler
+from sklearn.ensemble import GradientBoostingRegressor
 
 
-def predict_quality(trainset, X):
-    lasso = Lasso(alpha=0.01)
-    scaler = MinMaxScaler()
+def train_model(trainset):
+    """
+    Esta función entrena un modelo Gradient Boost
+    trainset: Conjunto de entrnamiento
     
-    scale_set = np.vstack((trainset[:, 0:-1], X))
-    scale_set = scaler.fit_transform(scale_set)
+    trainset es un array que tiene:
+    columna 1, x1: 'volatile_acidity'
+    columna 2, x2: 'density'
+    columna 3, x3: 'alcohol'
+    columna 4, y: 'quality' (Objetivo)    
+    """
+    X = trainset[:,0:-1]
+    y = trainset[:,-1]
+    
+    #Columnas de interacciones
+    x1_x2 = trainset[:,0] * trainset[:,1]
+    x2_x3 = trainset[:,1] * trainset[:,2]
+    x3_x1 = trainset[:,2] * trainset[:,0]
+    interactions = np.stack((x1_x2, x2_x3, x3_x1), axis=1)
+    xtrain = np.append(X, interactions, axis=1)
+    
+    #Escalador
+    scaler = StandardScaler()
+    xtrain_scaled = scaler.fit_transform(xtrain)
 
-    X = np.array([scale_set[-1,:]])
-    xtrain = scale_set[:-1, :]
-
-    ytrain = trainset[:,-1]
-    model = lasso.fit(xtrain, ytrain)
-    quality = model.predict(X).round()
-
-    return (quality[0], X, model.coef_)
+    #Entrenamiento
+    model = GradientBoostingRegressor(learning_rate=0.1,
+                                      max_features=3,
+                                      n_estimators=175)
+    model.fit(xtrain_scaled, y)
+    
+    return model
