@@ -28,10 +28,10 @@ COPY /vinos-app ./app
 # install renv & restore packages
 RUN Rscript -e 'install.packages("renv")'
 RUN Rscript -e 'renv::restore()'
-RUN R -e 'install.packages("dplyr")'
-RUN R -e 'install.packages("markdown")'
+RUN Rscript -e 'install.packages("dplyr")'
+RUN Rscript -e 'install.packages("markdown")'
 #install packages to make conection with PG
-RUN R -e 'install.packages(c("httr", "jsonlite", "DT","ggplot2"))'
+RUN Rscript -e 'install.packages(c("httr", "jsonlite", "DT","ggplot2"))'
 
 # expose port
 EXPOSE 4998
