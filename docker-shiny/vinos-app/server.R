@@ -68,7 +68,7 @@ wine_data$total_sulfur_dioxide <- as.double(wine_data$total_sulfur_dioxide)
     caract_delid = input$IDreg_delete))
   )
   url <- 'web:4999/'
-  response <- GET(url) #"https://geeksforgeeks.org"
+  response <- GET(url)
   wine_data <- fromJSON(content(response, as='text'))
   #Variables como factor
   wine_data$quality <- as.factor(wine_data$quality)
@@ -93,7 +93,7 @@ wine_data$total_sulfur_dioxide <- as.double(wine_data$total_sulfur_dioxide)
           caract_dummy12=input$calidad_u))
   )
   url <- 'web:4999/'
-  response <- GET(url) #"https://geeksforgeeks.org"
+  response <- GET(url) 
   wine_data <- fromJSON(content(response, as='text'))
   #Variables como factor
   wine_data$quality <- as.factor(wine_data$quality)
