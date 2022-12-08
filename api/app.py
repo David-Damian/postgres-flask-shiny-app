@@ -4,7 +4,8 @@ import numpy as np
 import psycopg2
 import psycopg2.extras
 from flask import Flask, request
-from utils import predict_quality
+from utils import train_model
+from sklearn.preprocessing import StandardScaler
 
 #Get enviroment variables
 USER = os.getenv('POSTGRES_USER')
@@ -16,6 +17,19 @@ database_uri = f'postgresql://{USER}:{PASSWORD}@{ADDRESS}:5432/{DB}'
 #Conexión a base de datos
 schema, table = 'public', 'wine_quality'
 conn = psycopg2.connect(database_uri)
+
+#Modelo de predicción
+cur = conn.cursor(cursor_factory=psycopg2.extras.NamedTupleCursor)
+cur.execute(f"""SELECT
+    volatile_acidity,
+    density,
+    alcohol,
+    quality
+FROM {schema}.{table}""")
+rows = np.array(cur.fetchall())
+cur.close()
+model = train_model(rows)
+
 
 app = Flask(__name__)
 
@@ -36,24 +50,29 @@ def predict():
         x_input = json.loads(request.data)
         x_input = np.array([list(x_input[0].values())])
 
+        #Formatear x_input a parámetors del modelo
         cur = conn.cursor(cursor_factory=psycopg2.extras.NamedTupleCursor)
         cur.execute(f"""SELECT
-            fixed_acidity,
             volatile_acidity,
-            citric_acid,
-            residual_sugar,
-            chlorides,
-            free_sulfur_dioxide,
-            total_sulfur_dioxide,
             density,
-            ph,
-            sulphates,
-            alcohol,
-            quality
+            alcohol
         FROM {schema}.{table}""")
         rows = np.array(cur.fetchall())
-        results = predict_quality(rows, x_input)
-        cur.close()
+        rows = np.append(rows, x_input, axis=0)
+        #Columnas de interacciones
+        x1_x2 = rows[:,0] * rows[:,1]
+        x2_x3 = rows[:,1] * rows[:,2]
+        x3_x1 = rows[:,2] * rows[:,0]
+        interactions = np.stack((x1_x2, x2_x3, x3_x1), axis=1)
+        rows = np.append(rows, interactions, axis=1)
+
+        #Escalador
+        scaler = StandardScaler()
+        rows = scaler.fit_transform(rows)
+        x_input = np.array([rows[-1,:]])
+
+        #Predicción
+        results = model.predict(x_input)
 
         #Model results file
         res_file = open("results.txt", "w")
@@ -63,9 +82,7 @@ def predict():
         #Log file
         log = open("log.txt", "a")
         log.write(f"Input: {x_input}\n")
-        log.write(f"Scaled: {results[1]}\n")
-        log.write(f"Pred: {results[0]}\n")
-        log.write(f"Coefs: {results[2]}\n")
+        log.write(f"Pred: {results}\n")
         log.close()
 
         return str(results)
