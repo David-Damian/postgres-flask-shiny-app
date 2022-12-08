@@ -73,6 +73,33 @@ wine_data$total_sulfur_dioxide <- as.double(wine_data$total_sulfur_dioxide)
   wine_data$type <- as.factor(wine_data$type)
   })
 
+ observeEvent(input$update,{
+  POST('web:4999/update', body=toJSON(data.frame(
+          caract_dummyid=input$IDactualizar_u,
+          caract_dummy0=input$tipo_u,
+          caract_dummy1=input$acidezfija_u,
+          caract_dummy2=input$acidezvolatil_u, 
+          caract_dummy3=input$acidcitric_u, 
+          caract_dummy4=input$azucarresidual_u,
+          caract_dummy5=input$cloruros_u,
+          caract_dummy6=input$so4libre_u,
+          caract_dummy7=input$so4total_u,
+          caract_dummy8=input$densidad_u,
+          caract_dummy9=input$PH_u,
+          caract_dummy10=input$sulfatos_u,
+          caract_dummy11=input$alcohol_u,
+          caract_dummy12=input$calidad_u))
+  )
+  url <- 'web:4999/'
+  response <- GET(url) #"https://geeksforgeeks.org"
+  wine_data <- fromJSON(content(response, as='text'))
+  #Variables como factor
+  wine_data$quality <- as.factor(wine_data$quality)
+  wine_data$type <- as.factor(wine_data$type)
+  })
+
+
+
 #RECIBE de la API, el valor predicho para calidad de vino
  observeEvent(input$predecir,{
   prediccion <- GET('web:4999/predict')

@@ -202,76 +202,76 @@ shinyUI(
 
                 fluidRow(
                     #Cajas input                
-   
+
                   #ID
                   box(
                     title = "Introduzca el ID  del registro a Actualizar",
-                    numericInput("IDactualizar", "ID", value = 1)
+                    numericInput("IDactualizar_u", "ID", value = 0)
                   ),                 
 
                   #acidez-fija
                   box(
                     title = "Característica 1",
-                    numericInput(inputId ="acidezfija", label = "Acidez fija",value=1)
+                    numericInput(inputId ="acidezfija_u", label = "Acidez fija",value=0)
       
                   ),
                   #acidez-volatil
                   box(
                     title = "Característica 2",
-                    numericInput(inputId ="acidezvolatil", label = "Acidez volatil",value=2)
+                    numericInput(inputId ="acidezvolatil_u", label = "Acidez volatil",value=0)
       
                   ),
                   #acid-citric
                   box(
                     title = "Característica 3",
-                    numericInput(inputId ="acidcitric", label = "Citricos",value=3)
+                    numericInput(inputId ="acidcitric_u", label = "Citricos",value=0)
       
                   ),
                   #azucar-residual
                   box(
                     title = "Característica 4",
-                    numericInput(inputId = "azucarresidual", label = "Azucar",value=4)
+                    numericInput(inputId = "azucarresidual_u", label = "Azucar",value=0)
                     
                   ),
 
                   #cloruros
                   box(
                     title = "Característica 5",
-                    numericInput(inputId = "cloruros", label = "CLoruros",value=5)
+                    numericInput(inputId = "cloruros_u", label = "CLoruros",value=0)
                     
                   ),
 
                  #so4 libre 
                   box(
                     title = "Característica 6",
-                    numericInput(inputId = "so4libre", label = "SO4 libre",value=6)
+                    numericInput(inputId = "so4libre_u", label = "SO4 libre",value=0)
                     
                   ),
                   #so4-total
                    box(
                     title = "Característica 7",
-                    numericInput(inputId = "so4total", label = "SO4 total",value=7)
+                    numericInput(inputId = "so4total_u", label = "SO4 total",value=0)
                     
                   ),
                   
                   #densidad
                    box(
                     title = "Característica 8",
-                    numericInput(inputId = "densidad", label = "Densidad",value=8)
+                    numericInput(inputId = "densidad_u", label = "Densidad",value=0)
                     
                   ),
 
                   #PH
                    box(
                     title = "Característica 9",
-                    numericInput(inputId = "PH", label = "pH",value=9)
+                    numericInput(inputId = "PH_u", label = "pH",value=0)
                     
                   ),
 
                   #sulfatos
                    box(
                     title = "Característica 10",
-                    numericInput(inputId = "sulfatos", label = "Sulfatos",value=10)
+                    numericInput(inputId = "sulfatos_u", label = "Sulfatos",value=0)
                     
                   ),
 
@@ -279,19 +279,19 @@ shinyUI(
                   #sulfatos
                    box(
                     title = "Característica 11",
-                    numericInput(inputId = "alcohol", label = "Alcohol",value=11)
+                    numericInput(inputId = "alcohol_u", label = "Alcohol",value=0)
                     
                   ),
 
                   #Por el momento esta caja es un input. Cuando ya haya resultados cambiar por un output
                   box(
                     title = "Caracteristica 12",
-                    numericInput("calidad", label="Calidad",value=6)
+                    numericInput("calidad", label="Calidad_u",value=0)
                   ),
 
                   box(
                     title = "Caracteristica 13",
-                      checkboxGroupInput("tipo", "Tipo de vino",
+                      checkboxGroupInput("tipo_u", "Tipo de vino",
                                    list(
                                      "Rojo"="red",
                                      "Blanco"="white"
