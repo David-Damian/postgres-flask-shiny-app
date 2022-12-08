@@ -286,7 +286,7 @@ shinyUI(
                   #Por el momento esta caja es un input. Cuando ya haya resultados cambiar por un output
                   box(
                     title = "Caracteristica 12",
-                    numericInput("calidad", label="Calidad_u",value=0)
+                    numericInput("calidad_u", label="Calidad",value=0)
                   ),
 
                   box(
