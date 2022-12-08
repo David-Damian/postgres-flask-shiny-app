@@ -1,36 +1,43 @@
-# Base de Datos.
+## Integrantes
+- David Damian Arbeu
+- Miguel Ángel Castañeda Martínez
+- José Eduardo Gutiérrez Navarrete
 
-## Prerrequisitos:
-* Docker
-* Python:
-    * **psycopg2**: `pip install psycopg2`
+## Explicación del problema de negocio
+El principal objetivo de la aplicación presentada es que a partir de ciertas caracteristicas quimicas de un vino sea capaz de predecir la calidad del mismo. Adicionalmente, ésta presenta al usuario una tabla con información de alrededor de 6,500 vinos diferentes, con la cual es posible explorar gráficamente las relaciones entre características.
 
-## Pasos de inicialización:
-**Paso 1**: Archivo de configuración.
-<br>Desde una terminal de bash ejecutar `cd db-config/ | docker-compose up -d`. Esto va a crear dos contenedores de Docker:
-* Uno con la imagen de Docker para PostgreSQL que se comunica en 5432:5432
-* Uno con la imagen de Docker para pgAdmin4 que se comunica en 80:80
+Para conseguir los objetivos planteados, se necesitó de entrenar un modelo de *Machine Learning* en `Python`a partir de un [conjunto de datos de vinos](https://www.kaggle.com/code/vishalyo990/prediction-of-quality-of-wine/data) que alojamos en una base de datos en `Postgres`.
 
-**Paso 2**: Acceso a pgAdmin4.
-<br>Desde un navegador, ir a la dirección `localhost:80`. Esto va a redirigir a una pestaña con la página de inicio de
-pgAdmin4 en donde se deben introducir las credenciales de acceso:
-* user: admin@admin.com
-* pass: admin
+La aplicación se aloja en un `ShinyDashboard` y es requerido que la comunicación entre la base de datos, el modelo y la interfaz sea a través de la implementación de una [API](https://github.com/Skalas/EC2022/blob/main/notas/API/Intro.org).
 
-**Paso 3**: Habilitar el servidor.
-1. Dar click derecho en `Servers` $\rightarrow$ `Resigter` $\rightarrow$ `Server`.
-2.  En la pestaña **General**:
-    * `Name`: Proporcionar el nombre del servidor (Puede ser cualquier nombre).
-3.  En la pestaña **Connection**:
-    * `Host name`: postgres
-    * `Username`: root
-    * `Password`: root
+La aplicación también permite que el usuario actualice, borre, y añada registros de nuevos vinos a los ya existentes.
 
-Lo anterior va a habilitar un servidor `Name` con 2 bases de datos:
- * Base de datos de mantenimiento: `postgres`
- * Base de datos de trabajo: `vinos`
+## Herramientas utilizadas
+ - Docker
+   - docker compose 
+ - R
+   - Shiny
+   - ShinyDashboard
+   - dplyr
+   - ggplot
+   - httr
+ - Python
+   - Flask
+   - Numpy
+   - Scikit-learn
+   - Psycopg2 
+ - SQL
+   - Postgres
+
+## Requisitos
+Tener instalado:
+   - Docker desktop
+   - Git
+## Instrucciones.
+ - Clonar este repositorio en la dirección local deseada.
+ - Dentro de la carpeta ejecutar en linea de comandos:  
+   - Linux/iOS: `docker compose up` 
+   - Windows: `docker-compose up`
  
- **Paso 4**: Iniciar tabla en BD de `vinos`.
- 1. Navegar a `vinos` $\rightarrow$ `Schemas` $\rightarrow$ `Tables`. No debería haber ninguna tabla creada.
- 2. En un archivo _Query_ (`alt`+`shift`+`Q`) copiar el contenido del script `db-config/table_config.txt` y ejecutarlo (`F5`).
- 3. Verificar que la tabla se creó correctamente _refrescando_ `Tables`. Ahora debería existir la tabla `wine_quality`.
+ El tiempo de carga es aproximadamente 5 minutos.
+
